@@ -12,6 +12,7 @@ import { ServicesModule } from './services/services.module';
 import { AppComponent } from './app.component';
 import { StoreModule } from '@ngrx/store';
 import { reducers, metaReducers } from './reducers';
+import { AdMobFree } from '@ionic-native/admob-free/ngx';
 
 @NgModule({
   declarations: [AppComponent],
@@ -31,6 +32,7 @@ import { reducers, metaReducers } from './reducers';
     IonicStorageModule.forRoot()
   ],
   providers: [
+    AdMobFree,
     StatusBar,
     SplashScreen,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }

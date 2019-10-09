@@ -7,27 +7,23 @@ export const defaultWarmupTemplates: WarmupTemplateInterface[] = [
     sets: [
       {
         percentage: 10,
-        reps: 1,
-      },
-      {
-        percentage: 20,
-        reps: 2,
+        reps: 15,
       },
       {
         percentage: 50,
-        reps: 40
+        reps: 8
       },
       {
-        percentage: 50,
-        reps: 40
+        percentage: 70,
+        reps: 5
+      },
+      {
+        percentage: 80,
+        reps: 3
       },
       {
         percentage: 90,
-        reps: 30
-      },
-      {
-        percentage: 100,
-        reps: 20
+        reps: 1
       }
     ]
   },
@@ -36,12 +32,46 @@ export const defaultWarmupTemplates: WarmupTemplateInterface[] = [
     name: 'Quick',
     sets: [
       {
-        percentage: 1,
+        percentage: 10,
         reps: 15
       },
       {
-        percentage: 40,
-        reps: 30
+        percentage: 60,
+        reps: 8
+      },
+      {
+        percentage: 85,
+        reps: 3
+      }
+    ]
+  },
+  {
+    id: 'Max Out',
+    name: 'Max Out',
+    sets: [
+      {
+        percentage: 10,
+        reps: 10
+      },
+      {
+        percentage: 50,
+        reps: 8
+      },
+      {
+        percentage: 70,
+        reps: 3
+      },
+      {
+        percentage: 80,
+        reps: 2
+      },
+      {
+        percentage: 90,
+        reps: 1
+      },
+      {
+        percentage: 95,
+        reps: 1
       }
     ]
   }

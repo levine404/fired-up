@@ -11,6 +11,7 @@ import { ExerciseSetService } from './services.exercise-set.service';
 import { StatusService } from './services.status.service';
 import { WarmupTemplateInterface } from 'src/types/warmup-template';
 import { ExerciseSetInterface } from 'src/types/exercise-set';
+// import { AdMobFree, AdMobFreeInterstitialConfig } from '@ionic-native/admob-free/ngx';
 
 @Component({
   selector: 'app-root',
@@ -18,7 +19,9 @@ import { ExerciseSetInterface } from 'src/types/exercise-set';
   styleUrls: ['app.component.scss']
 })
 export class AppComponent {
+
   constructor(
+    // private admobFree: AdMobFree,
     private storage: Storage,
     private platform: Platform,
     private splashScreen: SplashScreen,
@@ -28,6 +31,22 @@ export class AppComponent {
     private statusService: StatusService
   ) {
     this.initializeApp();
+    // if (this.platform.is('cordova')) {
+    //   const iConfig: AdMobFreeInterstitialConfig = {
+    //     // App ID: ca-app-pub-7458358764037128~9714608268
+    //     id: 'ca-app-pub-7458358764037128/1330025246',
+    //     isTesting: true,
+    //     autoShow: true
+    //   };
+    //   this.admobFree.interstitial.config(iConfig);
+    //   this.admobFree.interstitial.prepare()
+    //     .then(() => {
+
+    //     })
+    //     .catch(err => {
+    //       console.error(err);
+    //     });
+    // }
   }
 
   initializeApp(): void {
