@@ -1,4 +1,20 @@
-.welcome-card img {
-  max-height: 35vh;
-  overflow: hidden;
+ion-select {
+  color: var(--ion-color-secondary);
+}
+.active-title {
+  font-size: 1em;
+  text-align: center;
+  color: var(--ion-color-secondary-tint);
+}
+.timer {
+  position: sticky;
+  top: 0;
+  width: 100%;
+  background: var(--ion-color-dark-tint);
+  padding: 8px;
+  font-size: 1.7em;
+  text-align: center;
+  color: var(--ion-color-secondary);
+  margin-bottom: 12px;
+  z-index: 100;
 }

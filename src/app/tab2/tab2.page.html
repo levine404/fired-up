@@ -1,9 +1,53 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>
-      Tab Two
-    </ion-title>
-  </ion-toolbar>
-</ion-header>
-
-<ion-content></ion-content>
+<ion-content>
+  <section class="ion-padding ion-text-center">
+    <header>History</header>
+    <div class="app-list">
+      <div
+        *ngFor="let savedWarmup of (statusService.status | async).savedWarmups; let savedWarmupIndex = index"
+        class="app-list-item"
+        [style.margin-bottom]="'4px'"
+      >
+        <ion-item
+          lines="none"
+        >
+          <span
+            slot="start"
+            (click)="openItem('sw' + savedWarmupIndex)"
+            class="text-secondary settings-list-text ion-text-wrap"
+          >
+            <header><span class="history-name">{{ savedWarmup.name }}</span> - 
+              {{ savedWarmup.targetWeight }}{{ savedWarmup.targetUnit }} - 
+              {{ savedWarmup.sets.length - 1 }} Set{{ savedWarmup.sets.length - 1 !== 1 ? 's' : '' }} - 
+              {{ toDate(savedWarmup.timeEnd) }} - {{ timeCompleted(savedWarmup.time, savedWarmup.timeEnd) }} - 
+              {{ savedWarmup.templateName }}
+            </header>
+          </span>
+          <ion-button
+            size="small"
+            slot="end"
+            (click)="openItem('sw' + savedWarmupIndex)"
+          >
+            <ion-icon name="arrow-down"></ion-icon>
+          </ion-button>
+        </ion-item>
+        <app-expandable
+          [expanded]="itemOpen === 'sw' + savedWarmupIndex"
+        >
+          <div
+            *ngFor="let set of savedWarmup.sets.slice(0, savedWarmup.sets.length - 1); let setIndex = index"
+            class="saved-warmup-list-item"
+          >
+            {{ setIndex + 1 }}) {{ set.weight }}{{ savedWarmup.targetUnit }} ({{ set.percentage }}%) 
+            {{ timeCompleted(savedWarmup.time, set.timeCompleted) }}
+          </div>
+          <ion-button
+            color="danger"
+            size="small"
+            class="text-center delete-button"
+            (click)="statusService.removeSave(0);openItem()"
+          >Delete Saved Warmup</ion-button>
+        </app-expandable>
+      </div>
+    </div>
+  </section>
+</ion-content>

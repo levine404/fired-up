@@ -1,0 +1,38 @@
+<div
+  class="active-set"
+  [ngClass]="{ completed: set.timeCompleted }"
+>
+  <header>{{ set.isTarget ? 'Target' : 'Set' }} {{ set.isTarget ? '' : set.setIndex + 1 }} <span *ngIf="set.timeCompleted"> - {{ timeInSeconds(set.timeCompleted) }}</span>
+  </header>
+  <div class="active-set-weight-reps">
+    <div>
+      <span class="active-set-label">Weight</span>&nbsp;
+      <span class="active-set-detail">{{ set.weight }}</span>
+    </div>
+    <div *ngIf="!set.isTarget">
+      <span class="active-set-label">Reps</span>&nbsp;
+      <span class="active-set-detail">{{ set.reps }}</span>
+    </div>
+    <div>
+      <span class="active-set-label">Per</span>&nbsp;
+      <span class="active-set-detail">{{ set.percentage }}%</span>
+    </div>
+    <div *ngIf="!set.isTarget">
+      <span class="active-set-label">Done</span>&nbsp;
+      <ion-checkbox
+        [checked]="set.timeCompleted"
+        class="ion-dark"
+        (ionChange)="statusService.toggleSetAsComplete(set.setIndex)"
+      ></ion-checkbox>
+    </div>
+  </div>
+  <app-plate-chart
+    [setIndex]="set.setIndex"
+    [unit]="unit"
+    [platesStart]="set.platesStart"
+    [platesRemovedIndex]="set.platesRemovedIndex"
+    [platesEnd]="set.platesEnd"
+    [platesAddedIndex]="set.platesAddedIndex"
+    [isExcessive]="set.isExcessive"
+  ></app-plate-chart>
+</div>

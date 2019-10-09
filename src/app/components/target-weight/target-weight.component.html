@@ -1,0 +1,19 @@
+<ion-item lines="none">
+  <ion-input
+    type="number"
+    [value]="(statusService.status | async).targetWeight"
+    min="1"
+    max="9999"
+    class="target-weight-input"
+    [readonly]="(statusService.status | async).progress !== 'inactive'"
+    (ionChange)="statusService.setTargetWeight($event.detail.value)"
+  >
+  </ion-input>
+  <ion-button
+    slot="end"
+    [disabled]="(statusService.status | async).progress !== 'inactive'"
+    (click)="statusService.toggleUnit()"
+  >
+    {{ (statusService.status | async).targetUnit }}
+</ion-button>
+</ion-item>

@@ -1,5 +1,7 @@
 {
   "name": "getWarm",
-  "integrations": {},
+  "integrations": {
+    "cordova": {}
+  },
   "type": "angular"
 }

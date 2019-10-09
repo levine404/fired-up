@@ -1,0 +1,12 @@
+.expand-wrapper {
+  max-height: 0;
+  overflow: hidden;
+  &.expanded {
+    max-height: none;
+  }
+}
+
+ion-range {
+  --knob-size: 10px;
+  --knob-background: blue;
+}

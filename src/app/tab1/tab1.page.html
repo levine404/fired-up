@@ -1,41 +1,81 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>
-      Tab One
-    </ion-title>
-  </ion-toolbar>
-</ion-header>
-
 <ion-content>
-    <ion-card class="welcome-card">
-      <img src="/assets/shapes.svg" alt="" />
-      <ion-card-header>
-        <ion-card-subtitle>Get Started</ion-card-subtitle>
-        <ion-card-title>Welcome to Ionic</ion-card-title>
-      </ion-card-header>
-      <ion-card-content>
-        <p>Now that your app has been created, you'll want to start building out features and components. Check out some of the resources below for next steps.</p>
-      </ion-card-content>
-    </ion-card>
-    <ion-list lines="none">
-      <ion-list-header>
-        <ion-label>Resources</ion-label>
-      </ion-list-header>
-      <ion-item href="https://ionicframework.com/docs/">
-        <ion-icon slot="start" color="medium" name="book"></ion-icon>
-        <ion-label>Ionic Documentation</ion-label>
-      </ion-item>
-      <ion-item href="https://ionicframework.com/docs/building/scaffolding">
-        <ion-icon slot="start" color="medium" name="build"></ion-icon>
-        <ion-label>Scaffold Out Your App</ion-label>
-      </ion-item>
-      <ion-item href="https://ionicframework.com/docs/layout/structure">
-        <ion-icon slot="start" color="medium" name="grid"></ion-icon>
-        <ion-label>Change Your App Layout</ion-label>
-      </ion-item>
-      <ion-item href="https://ionicframework.com/docs/theming/basics">
-        <ion-icon slot="start" color="medium" name="color-fill"></ion-icon>
-        <ion-label>Theme Your App</ion-label>
-      </ion-item>
-    </ion-list>
+  <section class="ion-padding ion-text-center">
+    <header>Target Weight</header>
+    <app-target-weight></app-target-weight>
+  </section>
+
+  <section
+    *ngIf="(statusService.status | async).progress === 'inactive'"
+    class="ion-padding"
+  >
+    <header>Warmup Options</header>
+    <ion-item>
+      <ion-label color="tertiary">Excerise Name</ion-label>
+      <ion-input
+        color="secondary"
+        class="ion-text-right"
+        [value]="(statusService.status | async).name"
+        (ionChange)="statusService.setName($event.detail.value)"
+      ></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label color="tertiary">Warmup Template</ion-label>
+      <ion-select
+        placeholder="Select Template"
+        [value]="(statusService.status | async).warmupTemplate"
+        (ionChange)="statusService.setTemplate($event.detail.value)"
+      >
+        <ion-select-option
+          *ngFor="let template of (warmupService.warmupTemplates | async); trackBy:identify"
+          [value]="template"
+          >
+          {{ template.name }}
+        </ion-select-option>
+      </ion-select>
+    </ion-item>
+    <ion-item>
+      <ion-label color="tertiary">Exercise Set</ion-label>
+      <ion-select
+        placeholder="Select Set"
+        [value]="(statusService.status | async).exerciseSet"
+        (ionChange)="statusService.setExerciseSet($event.detail.value)"
+      >
+        <ion-select-option
+          *ngFor="let set of (exerciseSetService.exerciseSets | async); trackBy:identify"
+          [value]="set"
+          >
+          {{ set.name }}
+        </ion-select-option>
+      </ion-select>
+    </ion-item>
+    <ion-item-divider color="dark-tint"></ion-item-divider>
+    <ion-button
+      expand="block"
+      (click)="statusService.createWarmupSets()"
+    >Start</ion-button>
+  </section>
+
+  <section
+    *ngIf="(statusService.status | async).progress === 'active'"
+    class="ion-padding"
+  >
+    <div class="active-title">
+      Bench Press
+    </div>
+    <div class="active-title">
+      {{ (statusService.status | async).warmupTemplate.name }} - {{ (statusService.status | async).exerciseSet.name }}
+    </div>
+    <div class="timer">{{ timerTime() }}</div>
+    <app-active-set
+      *ngFor="let set of (statusService.status | async).sets"
+      [unit]="(statusService.status | async).targetUnit"
+      [set]="set"
+      [start]="start"
+    >
+    </app-active-set>
+    <ion-button
+      expand="block"
+      (click)="statusService.finishWarmup()"
+    >Finish</ion-button>
+  </section>
 </ion-content>

@@ -1,0 +1,110 @@
+.plate-chart {
+  margin: 8px;
+  border-radius: 4px;
+  height: 60px;
+  display: flex;
+  .plate-remove, .plate-add {
+    position: relative;
+    flex: 0 0 50%;
+    height: 60px;
+    .plate-bar {
+      position: absolute;
+      display: flex;
+      align-items: center;
+      top: 26px;
+      width: 60%;
+      max-width: 200px;
+      height: 8px;
+      background: linear-gradient(to bottom, #ddd, var(--ion-color-medium), var(--ion-color-medium-shade), #333);
+      .plate {
+        flex: 0 1 6px;
+        min-width: 2px;
+        margin: 0 1px;
+        background: linear-gradient(to bottom, #ddd, var(--ion-color-secondary), var(--ion-color-secondary-shade), #333);
+        min-height: 20px;
+        border-radius: 1px;
+      }
+    }
+  }
+  .plate-remove {
+    .plate-bar {
+      .plate:first-child {
+        margin-left: 24px;
+      }
+      .plate.gap:first-child {
+        margin-left: 44px;
+      }
+      .plate.gap {
+        margin-left: 20px;
+      }
+    }
+  }
+  .plate-add {
+    .plate-bar {
+      flex-direction: row-reverse;
+      .plate:first-child {
+        margin-right: 24px;
+      }
+      .plate.gap:first-child {
+        margin-right: 44px;
+      }
+      .plate.gap {
+        margin-right: 20px;
+      }
+    }
+  }
+  .plate-remove .plate-bar::before {
+    display: block;
+    position: absolute;
+    content: '';
+    background: linear-gradient(to bottom, #ddd, var(--ion-color-medium), var(--ion-color-medium-shade), #333);
+    width: 8px;
+    height: 16px;
+    top: -4px;
+    left: 12px;
+  }
+  .plate-add {
+    .plate-bar {
+      right: 1px;
+    }
+    .plate-bar::before {
+      display: block;
+      position: absolute;
+      content: '';
+      background: linear-gradient(to bottom, #ddd, var(--ion-color-medium), var(--ion-color-medium-shade), #333);
+      width: 8px;
+      height: 16px;
+      top: -4px;
+      right: 12px;
+    }
+  }
+  .plate-add .plate-bar::before {
+    right: 12px;
+  }
+  .plate-divider {
+    flex: 0 0 2px;
+  }
+}
+
+.instructions {
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: 8px;
+  color: var(--ion-color-secondary-tint);
+  font-size: 75%;
+  .center {
+    flex: 0 0 100%;
+    padding: 12px;
+    text-align: center;
+    &.plate-warning {
+      color: var(--ion-color-warning);
+    }
+  }
+  .left, .right {
+    flex: 0 0 50%;
+    padding: 12px;
+  }
+  .right {
+    text-align: right;
+  }
+}

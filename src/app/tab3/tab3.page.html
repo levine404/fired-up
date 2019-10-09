@@ -1,9 +1,237 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>
-      Tab Three
-    </ion-title>
-  </ion-toolbar>
-</ion-header>
+<ion-content>
 
-<ion-content></ion-content>
+  <section class="ion-padding">
+    <header>Warmup Templates</header>
+    <div class="app-list">
+      <div
+        *ngFor="let template of (warmupService.warmupTemplates | async); let templateIndex = index; trackBy:identifyTemplate"
+        class="app-list-item"
+        [style.margin-bottom]="'4px'"
+      >
+        <ion-item
+          lines="none"
+        >
+          <span
+            slot="start"
+            (click)="openItem('w' + templateIndex)"
+            class="text-secondary settings-list-text ion-text-wrap"
+          >
+            {{ template.name }} ({{ template.sets.length }} Sets) {{ percs(template.sets) }}
+          </span>
+          <ion-button
+            size="small"
+            slot="end"
+            (click)="openItem('w' + templateIndex)"
+          >
+            <ion-icon name="build"></ion-icon>
+          </ion-button>
+        </ion-item>
+        <app-expandable
+          [expanded]="itemOpen === 'w' + templateIndex"
+        >
+          <div>
+            <ion-item>
+              <ion-label color="tertiary">Template Name</ion-label>
+              <ion-input
+                color="secondary"
+                class="ion-text-right"
+                [value]="template.name"
+                (ionChange)="warmupService.changeTemplateName(template.id, $event.detail.value)"
+              ></ion-input>
+            </ion-item>
+            <div class="app-list">
+              <div class="app-list-item">
+                <ion-item
+                  *ngFor="let set of template.sets; let setIndex = index; trackBy:identifySet"
+                  lines="none"
+                >
+                  <div slot="start" [style.flex]="'1 0 50%'">
+                    <ion-label color="tertiary">
+                      Set {{ setIndex + 1 }} - {{ set.percentage }}%
+                    </ion-label>
+                    <ion-range
+                      min="1"
+                      max="99"
+                      knob-size="'4px'"
+                      step="0.25"
+                      debounce="50"
+                      [value]="set.percentage"
+                      (ionChange)="warmupService.adjustPercentage(template.id, setIndex, $event.detail.value)"
+                    ></ion-range>
+                    <ion-label color="tertiary">
+                      Rep Count
+                    </ion-label>
+                    <ion-input
+                      type="number"
+                      color="primary"
+                      [value]="set.reps"
+                      (ionChange)="warmupService.adjustReps(template.id, setIndex, $event.detail.value)"
+                    ></ion-input>
+                  </div>
+                  <div slot="end">
+                    <ion-button
+                      size="small"
+                      (click)="warmupService.removeSet(template.id, setIndex)"
+                    >
+                      <ion-icon size="small" name="remove"></ion-icon>
+                    </ion-button>
+                  </div>
+                </ion-item>
+                <ion-item lines="none">
+                 <div slot="start" [style.flex]="'1 0 50%'">
+                    <ion-label color="tertiary">
+                      Add Set
+                    </ion-label>
+                  </div>
+                  <div slot="end">
+                    <ion-button
+                      size="small"
+                      (click)="warmupService.addSet(template.id)"
+                    >
+                      <ion-icon size="small" name="add"></ion-icon>
+                    </ion-button>
+                  </div>
+                </ion-item>
+              </div>
+            </div>
+          </div>
+          <ion-button
+            color="danger"
+            size="small"
+            class="text-center"
+            (click)="warmupService.deleteWarmupTemplate(template.id);openItem()"
+          >Delete Warmup Template</ion-button>
+        </app-expandable>
+      </div>
+      <ion-button
+        expand="full"
+        size="small"
+        (click)="warmupService.createWarmupTemplate();openItem()"
+      >
+        Create New Warmup Template
+      </ion-button>
+    </div>
+  </section>
+
+  <section class="ion-padding">
+    <header>Exercise Sets</header>
+    <div class="app-list">
+      <div
+        *ngFor="let set of (exSerivce.exerciseSets | async); let setIndex = index; trackBy:identifyExSet"
+        class="app-list-item"
+        [style.margin-bottom]="'4px'"
+      >
+        <ion-item
+          lines="none"
+        >
+          <span
+            slot="start"
+            (click)="openItem('e' + setIndex)"
+            class="text-secondary settings-list-text ion-text-wrap"
+          >
+            {{ set.name }} ({{ set.set.plates.length }} Sets) {{ plates(set.set.plates) }}
+          </span>
+          <ion-button
+            size="small"
+            slot="end"
+            (click)="openItem('e' + setIndex)"
+          >
+            <ion-icon name="build"></ion-icon>
+          </ion-button>
+        </ion-item>
+        <app-expandable
+          [expanded]="itemOpen === 'e' + setIndex"
+        >
+          <ion-item>
+            <ion-label color="tertiary">Set Name</ion-label>
+            <ion-input
+              color="secondary"
+              class="ion-text-right"
+              [value]="set.name"
+              (ionChange)="exSerivce.changeSetName(set.id, $event.detail.value)"
+            ></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label color="tertiary">Unit</ion-label>
+            <ion-button
+              color="secondary"
+              class="ion-text-right"
+              (click)="exSerivce.toggleUnit(set.id)"
+            >{{ set.unit }}</ion-button>
+          </ion-item>
+          <ion-item>
+            <ion-label color="tertiary">Bar Weight</ion-label>
+            <ion-input
+              color="secondary"
+              class="ion-text-right"
+              [value]="set.set.bar"
+              (ionChange)="exSerivce.adjustBarWeight(set.id, $event.detail.value)"
+            ></ion-input>
+          </ion-item>
+          <ion-item-divider color="dark-tint"></ion-item-divider>
+          <ion-label color="tertiary">Plates</ion-label>
+          <div class="app-list">
+            <div class="app-list-item">
+              <ion-item
+                *ngFor="let plate of set.set.plates; let plateIndex = index; trackBy:identifySet"
+                lines="none"
+              >
+                <ion-label color="tertiary">Weight</ion-label>
+                <ion-input
+                  color="secondary"
+                  class="ion-text-right"
+                  [value]="plate.weight"
+                  (ionChange)="exSerivce.adjustWeight(set.id, plateIndex, $event.detail.value)"
+                ></ion-input>
+                <ion-label color="tertiary">Count</ion-label>
+                <ion-input
+                  color="secondary"
+                  class="ion-text-right"
+                  [value]="plate.count"
+                  (ionChange)="exSerivce.adjustCount(set.id, plateIndex, $event.detail.value)"
+                ></ion-input>
+                <ion-button
+                  size="small"
+                  color="primary"
+                  (click)="exSerivce.removeWeight(set.id, plateIndex)"
+                >
+                  <ion-icon name="remove"></ion-icon>
+                </ion-button>
+              </ion-item>
+              <ion-item lines="none">
+                <div slot="start" [style.flex]="'1 0 50%'">
+                  <ion-label color="tertiary">
+                    Add Plate
+                  </ion-label>
+                </div>
+                <div slot="end">
+                  <ion-button
+                    size="small"
+                    color="primary"
+                    (click)="exSerivce.addWeight(set.id)"
+                  >
+                    <ion-icon size="small" name="add"></ion-icon>
+                  </ion-button>
+                </div>
+              </ion-item>
+            </div>
+          </div>
+          <ion-button
+            color="danger"
+            size="small"
+            class="text-center"
+            (click)="exSerivce.deleteExerciseSet(set.id);openItem()"
+          >Delete Exercise Set</ion-button>
+        </app-expandable>
+      </div>
+    </div>
+    <ion-button
+      expand="full"
+      size="small"
+      (click)="exSerivce.createExerciseSet();openItem()"
+    >
+      Create New Exercise Set
+    </ion-button>
+  </section>
+
+</ion-content>

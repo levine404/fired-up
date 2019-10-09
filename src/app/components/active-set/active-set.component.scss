@@ -1,0 +1,30 @@
+.active-set-weight-reps {
+  display: flex;
+  justify-content: space-evenly;
+  div {
+    flex: 1 1 auto;
+    text-align: center;
+  }
+}
+.active-set-label {
+  text-transform: uppercase;
+  font-size: 60%;
+  color: var(--ion-color-tertiary);
+}
+.active-set-detail {
+  font-size: 110%;
+  font-weight: 900;
+  color: var(--ion-color-primary);
+}
+ion-checkbox {
+  vertical-align: middle;
+  --border-color: var(--ion-color-medium-shade);
+}
+.completed {
+  transition: opacity 0.5 ease-in-out;
+  opacity: 0.5;
+}
+.active-set {
+  border-bottom: 1px solid var(--ion-color-light);
+  margin-bottom: 24px;
+}

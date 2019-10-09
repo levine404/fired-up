@@ -1,0 +1,59 @@
+<div class="plate-chart">
+  <div class="plate-remove">
+    <div class="plate-bar">
+      <div
+        *ngFor="let plate of platesStart; let plateIndex = index"
+        class="plate"
+        [ngStyle]="{
+          height: plateHeight(plate)
+        }"
+        [class.gap]="plateIndex === platesRemovedIndex"
+      ></div>
+    </div>
+  </div>
+  <div class="plate-divider"></div>
+  <div class="plate-add">
+    <div class="plate-bar">
+      <div
+        *ngFor="let plate of platesEnd; let plateIndex = index"
+        class="plate"
+        [ngStyle]="{
+          height: plateHeight(plate)
+        }"
+        [class.gap]="plateIndex === platesAddedIndex"
+      ></div>
+    </div>
+  </div>
+</div>
+<div class="instructions">
+  <div
+    *ngIf="!platesStart.length && !platesEnd.length"
+    class="center"
+  >
+    Warmup with the bar
+  </div>
+  <div
+    *ngIf="setIndex && sameAsBefore()"
+    class="center"
+  >
+    Warmup with same weight as previous set
+  </div>
+  <div
+    *ngIf="platesStart.length || platesEnd.length"
+    class="left"
+  >
+    {{ leftInstructions() }}
+  </div>
+  <div
+    *ngIf="platesStart.length || platesEnd.length"
+    class="right"
+  >
+    {{ rightInstructions() }}
+  </div>
+  <div
+    *ngIf="isExcessive"
+    class="center plate-warning"
+  >
+    There is not adequate weight in the exercise set to continue!
+  </div>
+</div>
